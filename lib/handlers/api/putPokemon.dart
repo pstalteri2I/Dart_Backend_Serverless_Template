@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:aws_lambda_dart_runtime/aws_lambda_dart_runtime.dart';
 import 'package:aws_lambda_dart_runtime/runtime/context.dart';
-import 'package:dart_template/marshall.dart';
+import 'package:dart_template/marshal.dart';
 import 'package:dart_template/models/pokemon.dart';
 import 'package:uuid/uuid.dart';
 import 'package:aws_client/dynamo_document.dart';
@@ -30,8 +30,7 @@ Future<AwsApiGatewayResponse> putPokemon(
     return AwsApiGatewayResponse.fromJson(
       {
         'status': 'ok',
-        'content': 'Pokemon created',
-        'pokemon': pokemon.toJson()
+        'content': pokemon.toJson(),
       },
     );
   } catch (e) {
