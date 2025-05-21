@@ -22,11 +22,11 @@ custom:
 
 functions:
   status:
-    handler: main.status
+    handler: main.putPokemon
     events:
       - http:
-          path: /hello
-          method: GET
+          path: /pokemon
+          method: PUT
           cors:
             origin: "*"
             headers:
