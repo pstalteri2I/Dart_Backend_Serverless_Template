@@ -1,0 +1,47 @@
+name: Dev
+
+on: push
+permissions: write-all
+env:
+  AWS_REGION: "eu-west-2"
+jobs:
+  deploy_API:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::737830503619:role/GitHub_Deploy
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Deploy
+        run: |
+          dart pub global activate onepub
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+          dart pub get
+          dart compile exe lib/main.dart -o build/bootstrap --define "AWS_REGION=eu-west-2" \
+          cd build
+          zip bootstrap.zip ./*
+          cd ..
+          npx serverless deploy --verbose  --param "aws_region=eu-central-1" \
+
+  # deploy_TS:
+  #   if: github.ref == 'refs/heads/dev'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: configure aws credentials
+  #       uses: aws-actions/configure-aws-credentials@master
+  #       with:
+  #         role-to-assume: arn:aws:iam::306751299729:role/GitHub-OIDC-Role-BZFPTQ7KDRS1
+  #         aws-region: ${{ env.AWS_REGION }}
+  #     - name: Deploy
+  #       env:
+  #         STAGE: "dev"
+  #       run: |
+  #         cd ts
+  #         npm i
+  #         npx serverless deploy --verbose  --param "aws_region=eu-central-1"

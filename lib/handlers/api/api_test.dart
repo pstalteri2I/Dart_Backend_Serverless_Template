@@ -3,7 +3,7 @@ import 'package:aws_lambda_dart_runtime/runtime/context.dart';
 
 Future<AwsApiGatewayResponse> status(
     Context context, AwsApiGatewayEvent event) async {
-  return AwsApiGatewayResponse.fromJson({'status': 'ok'},
+  return AwsApiGatewayResponse.fromJson({'status': 'okk'},
       statusCode: 200, headers: {'Access-Control-Allow-Origin': '*'});
 }
 //ciao
