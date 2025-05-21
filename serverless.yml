@@ -4,7 +4,7 @@ provider:
   name: aws
   deploymentMethod: direct
   runtime: provided.al2
-  region: your-aws-region
+  region: eu-west-2
   memorySize: 1024
 
 package:
@@ -22,7 +22,7 @@ custom:
 
 functions:
   status:
-    handler: main.hello
+    handler: main.status
     events:
       - http:
           path: /hello
