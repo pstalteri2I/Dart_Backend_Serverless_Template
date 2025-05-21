@@ -9,6 +9,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: |
+          dart pub get
+      - run: dart format --output=none --set-exit-if-changed .
       - name: Checkout
         uses: actions/checkout@v2
       - name: configure aws credentials
@@ -21,11 +26,15 @@ jobs:
           dart pub global activate onepub
           export PATH="$PATH":"$HOME/.pub-cache/bin"
           dart pub get
-          dart compile exe lib/main.dart -o build/bootstrap --define "AWS_REGION=eu-west-2" \
+          dart compile exe lib/main.dart -o build/bootstrap --define "AWS_REGION=eu-central-1" 
           cd build
           zip bootstrap.zip ./*
           cd ..
-          npx serverless deploy --verbose  --param "aws_region=eu-central-1" \
+          sudo npm install npm -g
+          npm i serverless@3.39.0
+          npm i serverless-iam-roles-per-function
+          npm i serverless-prune-plugin
+          npx serverless deploy --verbose  --param "aws_region=eu-central-1"
 
   # deploy_TS:
   #   if: github.ref == 'refs/heads/dev'
