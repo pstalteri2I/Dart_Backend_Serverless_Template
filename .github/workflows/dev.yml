@@ -30,7 +30,6 @@ jobs:
           cd build
           zip bootstrap.zip ./*
           cd ..
-          sudo npm install npm -g
           npm i serverless@3.39.0
           npm i serverless-iam-roles-per-function
           npm i serverless-prune-plugin
