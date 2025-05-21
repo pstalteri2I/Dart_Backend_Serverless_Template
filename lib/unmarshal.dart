@@ -1,4 +1,4 @@
-import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
+import 'package:aws_client/dynamo_db_2012_08_10.dart';
 
 Map<String, dynamic> unmarshal(Map<String, AttributeValue> data) {
   final toReturn = <String, dynamic>{};

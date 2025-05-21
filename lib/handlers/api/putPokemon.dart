@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:aws_client/dynamo_db_2012_08_10.dart';
 import 'package:aws_lambda_dart_runtime/aws_lambda_dart_runtime.dart';
 import 'package:aws_lambda_dart_runtime/runtime/context.dart';
 import 'package:dart_template/marshal.dart';
 import 'package:dart_template/models/pokemon.dart';
 import 'package:uuid/uuid.dart';
-import 'package:aws_client/dynamo_document.dart';
 
 Future<AwsApiGatewayResponse> putPokemon(
     Context context, AwsApiGatewayEvent event) async {
@@ -18,9 +18,9 @@ Future<AwsApiGatewayResponse> putPokemon(
         type: body['type'],
         type2: body['type2']);
 
-    final db = DocumentClient(region: context.region!);
+    final db = DynamoDB(region: context.region!);
 
-    final newPokemon = await db.put(
+    final newPokemon = await db.putItem(
       tableName: 'pokemons',
       item: marshall(pokemon.toJson()),
     );

@@ -12,7 +12,6 @@ dependencies:
   aws_client: ^0.4.1
   aws_cognito_idp_api: null
   aws_common: null
-  aws_dynamodb_api: null
   aws_lambda_dart_runtime: ^1.1.0
   crypto: ^3.0.2
   dartx: ^1.1.0
