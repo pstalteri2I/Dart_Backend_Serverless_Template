@@ -21,7 +21,7 @@ custom:
     number: 3
 
 functions:
-  status:
+  putPokemon:
     handler: main.putPokemon
     events:
       - http:
@@ -37,6 +37,24 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
+
+  getPokemons:
+    handler: main.getPokemons
+    events:
+      - http:
+          path: /pokemon
+          method: GET
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - Content-Encoding
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:Scan
+        Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
+
   # EXAMPLEputUser:
   #   handler: main.EXAMPLEputUser
   #   events:
