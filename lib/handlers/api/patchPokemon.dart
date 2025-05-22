@@ -20,16 +20,19 @@ Future<AwsApiGatewayResponse> patchPokemon(
 
     if (body['name'] != null || body['type'] != null || body['type2'] != null) {
       expression = "SET ";
-    }
+      if (body['name'] != null) {
+        expression += "#name = :name, ";
+      }
+      if (body['type'] != null) {
+        expression += "#type = :type, ";
+      }
+      if (body['type2'] != null) {
+        expression += "#type2 = :type2, ";
+      }
 
-    if (body['name'] != null) {
-      expression += "#name = :name, ";
-    }
-    if (body['type'] != null) {
-      expression += "#type = :type, ";
-    }
-    if (body['type2'] != null) {
-      expression += "#type2 = :type2";
+      if (expression.endsWith(', ')) {
+        expression = expression.substring(0, expression.length - 2);
+      }
     }
 
     final results = await db.updateItem(
@@ -38,16 +41,16 @@ Future<AwsApiGatewayResponse> patchPokemon(
       updateExpression: expression.isNotEmpty ? expression : null,
       expressionAttributeNames: expression.isNotEmpty
           ? {
-              body['name'] != null ? '#name' : 'name': "",
-              body['type'] != null ? '#type' : 'type': "",
-              body['type2'] != null ? '#type2' : 'type2': "",
+              if (body['name'] != null) '#name': 'name',
+              if (body['type'] != null) '#type': 'type',
+              if (body['type2'] != null) '#type2': 'type2',
             }
           : null,
       expressionAttributeValues: expression.isNotEmpty
           ? marshall({
-              body['name'] != null ? ':name' : body['name']: "",
-              body['type'] != null ? ':type' : body['type']: "",
-              body['type2'] != null ? ':type2' : body['type2']: "",
+              if (body['name'] != null) ':name': body['name'],
+              if (body['type'] != null) ':type': body['type'],
+              if (body['type2'] != null) ':type2': body['type2'],
             })
           : null,
       returnValues: ReturnValue.allNew,
