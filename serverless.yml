@@ -55,6 +55,22 @@ functions:
           - dynamodb:Scan
         Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
 
+  getPokemon:
+    handler: main.getPokemon
+    events:
+      - http:
+          path: /pokemon/{pokemonID}
+          method: GET
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - Content-Encoding
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
   # EXAMPLEputUser:
   #   handler: main.EXAMPLEputUser
   #   events:
