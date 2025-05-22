@@ -16,18 +16,20 @@ Future<AwsApiGatewayResponse> putPokemon(
 
     List<Pokemon> pokemonList = [];
 
-    body.map((e) => pokemonList.add(Pokemon(
-        pokemonID: uuid.v1(),
-        name: e['name'],
-        type: e['type'],
-        type2: e['type2'])));
+    final requestItem = body.map((e) {
+      Pokemon pokemon = Pokemon(
+          pokemonID: uuid.v1(),
+          name: e['name'],
+          type: e['type'],
+          type2: e['type2']);
 
-    final requestItem = pokemonList
-        .map((p) => (WriteRequest(
-                putRequest: PutRequest(
-              item: marshall(p.toJson()),
-            ))))
-        .toList();
+      pokemonList.add(pokemon);
+      WriteRequest(
+        putRequest: PutRequest(
+          item: marshall(pokemon.toJson()),
+        ),
+      );
+    }).toList();
 
     final db = DynamoDB(region: context.region!);
 
