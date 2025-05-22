@@ -40,7 +40,7 @@ Future<AwsApiGatewayResponse> getPokemons(
     }).toList();
 
     return AwsApiGatewayResponse.fromJson(
-        {'status': 'ok', 'content': pokemonList.map((e) => e.toJson())});
+        {'status': 'ok', 'content': pokemonList});
   } catch (e) {
     return AwsApiGatewayResponse.fromJson({
       'status': 'error',
