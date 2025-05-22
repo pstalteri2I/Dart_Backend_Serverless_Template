@@ -15,9 +15,15 @@ Future<AwsApiGatewayResponse> getPokemons(
 
     final results = await db.scan(
         tableName: "pokemons",
-        filterExpression: pokemonType != null ? "contains(#type, :type)" : null,
-        expressionAttributeNames:
-            pokemonType != null ? {"#type": "type"} : null,
+        filterExpression: pokemonType != null
+            ? "contains(#type, :type) or contains(#type2, :type)"
+            : null,
+        expressionAttributeNames: pokemonType != null
+            ? {
+                "#type": "type",
+                "#type2": "type2",
+              }
+            : null,
         expressionAttributeValues:
             pokemonType != null ? marshall({":type": pokemonType}) : null);
 
