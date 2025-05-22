@@ -1,22 +1,45 @@
 import 'dart:convert';
 import 'package:aws_client/dynamo_db_2012_08_10.dart';
-import 'package:aws_client/greengrass_2017_06_07.dart';
 import 'package:aws_lambda_dart_runtime/aws_lambda_dart_runtime.dart';
 import 'package:aws_lambda_dart_runtime/runtime/context.dart';
 import 'package:dart_template/marshal.dart';
 import 'package:dart_template/models/pokemon.dart';
 import 'package:uuid/uuid.dart';
-import 'package:aws_client/ses_v2_2019_09_27.dart';
 
 Future<AwsApiGatewayResponse> putPokemon(
     Context context, AwsApiGatewayEvent event) async {
   try {
     var uuid = const Uuid();
+    //final body = jsonDecode(event.body!) as List<dynamic>;
+
+    //final body = List.from(jsonDecode(event.body!));
+
     final body = jsonDecode(event.body!);
+    final db = DynamoDB(region: context.region!);
+
+    if (body is! List) {
+      Pokemon pokemon = Pokemon(
+          pokemonID: uuid.v1(),
+          name: body['name'],
+          type: body['type'],
+          type2: body['type2']);
+
+      await db.putItem(
+        item: marshall(pokemon.toJson()),
+        tableName: "pokemons",
+      );
+
+      return AwsApiGatewayResponse.fromJson(
+        {
+          'status': 'ok',
+          'content': pokemon.toJson(),
+        },
+      );
+    }
 
     List<Pokemon> pokemonList = [];
 
-    List<WriteRequest> requestItem = body.map((e) {
+    final requestItem = body.map((e) {
       Pokemon pokemon = Pokemon(
           pokemonID: uuid.v1(),
           name: e['name'],
@@ -30,8 +53,6 @@ Future<AwsApiGatewayResponse> putPokemon(
         ),
       );
     }).toList();
-
-    final db = DynamoDB(region: context.region!);
 
     await db.batchWriteItem(
       requestItems: {
