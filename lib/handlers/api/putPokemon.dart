@@ -24,7 +24,7 @@ Future<AwsApiGatewayResponse> putPokemon(
           type2: e['type2']);
 
       pokemonList.add(pokemon);
-      WriteRequest(
+      return WriteRequest(
         putRequest: PutRequest(
           item: marshall(pokemon.toJson()),
         ),
