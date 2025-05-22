@@ -21,7 +21,7 @@ Future<AwsApiGatewayResponse> putPokemon(
 
     final db = DynamoDB(region: context.region!);
 
-    final newPokemon = await db.putItem(
+    await db.putItem(
       tableName: 'pokemons',
       item: marshall(pokemon.toJson()),
     );
