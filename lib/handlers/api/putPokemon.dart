@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:aws_client/dynamo_db_2012_08_10.dart';
+import 'package:aws_client/greengrass_2017_06_07.dart';
 import 'package:aws_lambda_dart_runtime/aws_lambda_dart_runtime.dart';
 import 'package:aws_lambda_dart_runtime/runtime/context.dart';
 import 'package:dart_template/marshal.dart';
@@ -13,43 +14,53 @@ Future<AwsApiGatewayResponse> putPokemon(
     var uuid = const Uuid();
     final body = jsonDecode(event.body!);
 
-    Pokemon pokemon = Pokemon(
+    List<Pokemon> pokemonList = [];
+
+    body.map((e) => pokemonList.add(Pokemon(
         pokemonID: uuid.v1(),
-        name: body['name'],
-        type: body['type'],
-        type2: body['type2']);
+        name: e['name'],
+        type: e['type'],
+        type2: e['type2'])));
+
+    final requestItem = pokemonList
+        .map((p) => (WriteRequest(
+                putRequest: PutRequest(
+              item: marshall(p.toJson()),
+            ))))
+        .toList();
 
     final db = DynamoDB(region: context.region!);
 
-    await db.putItem(
-      tableName: 'pokemons',
-      item: marshall(pokemon.toJson()),
+    await db.batchWriteItem(
+      requestItems: {
+        "pokemons": requestItem,
+      },
     );
 
-    final api = SesV2(region: context.region!);
+    // final api = SesV2(region: context.region!);
 
-    await api.sendEmail(
-      fromEmailAddress: 'tnicosia@2innovation.it',
-      destination: Destination(
-        toAddresses: ['pstalteri@2innovation.it'],
-      ),
-      content: EmailContent(
-        simple: Message(
-          body: Body(
-              text: Content(
-                  data:
-                      'Pokemon created, ID: ${pokemon.pokemonID}, name: ${pokemon.name}')),
-          subject: Content(data: 'Email from SES'),
-        ),
-      ),
-    );
+    // await api.sendEmail(
+    //   fromEmailAddress: 'tnicosia@2innovation.it',
+    //   destination: Destination(
+    //     toAddresses: ['pstalteri@2innovation.it'],
+    //   ),
+    //   content: EmailContent(
+    //     simple: Message(
+    //       body: Body(
+    //           text: Content(
+    //               data:
+    //                   'Pokemon created, ID: ${pokemon.pokemonID}, name: ${pokemon.name}')),
+    //       subject: Content(data: 'Email from SES'),
+    //     ),
+    //   ),
+    // );
 
-    api.close();
+    // api.close();
 
     return AwsApiGatewayResponse.fromJson(
       {
         'status': 'ok',
-        'content': pokemon.toJson(),
+        'content': pokemonList,
       },
     );
   } catch (e) {

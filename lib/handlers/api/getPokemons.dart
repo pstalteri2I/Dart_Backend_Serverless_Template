@@ -37,7 +37,7 @@ Future<AwsApiGatewayResponse> getPokemons(
 
     final pokemonList = results.items!.map((p) {
       Pokemon pokemon = Pokemon.fromJson(unmarshal(p));
-      pokemon.pokemonID = "Tiziano riscrivi il backend di Sall-y";
+      pokemon.pokemonID = "Tiziano riscrivi il backend di Sell-y";
       return pokemon;
     }).toList();
 
