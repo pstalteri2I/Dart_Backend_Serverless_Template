@@ -88,14 +88,12 @@ Future<AwsApiGatewayResponse> putPokemon(
         'content': pokemonList,
       },
     );
-  } catch (e, stackTrace) {
-    return AwsApiGatewayResponse.fromJson(
-      {
-        'status': 'error',
-        'content': 'Error creating Pokemon',
-        'error': e.toString(),
-        'stackTrace': stackTrace.toString(),
-      },
-    );
+  } catch (e, s) {
+    return AwsApiGatewayResponse.fromJson({
+      'status': 'error',
+      'content': 'Error creating Pokemon',
+      'error': e.toString(),
+      'stack': s.toString(),
+    });
   }
 }

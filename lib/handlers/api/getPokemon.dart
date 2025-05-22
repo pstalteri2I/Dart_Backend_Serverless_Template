@@ -27,11 +27,12 @@ Future<AwsApiGatewayResponse> getPokemon(
 
     return AwsApiGatewayResponse.fromJson(
         {'status': 'ok', 'content': pokemon.toJson()});
-  } catch (e) {
+  } catch (e, s) {
     return AwsApiGatewayResponse.fromJson({
       'status': 'error',
       'content': 'Error creating Pokemon',
       'error': e.toString(),
+      'stack': s.toString(),
     });
   }
 }
