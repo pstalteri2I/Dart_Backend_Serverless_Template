@@ -41,11 +41,14 @@ Future<AwsApiGatewayResponse> getPokemons(
             ? marshall({"pokemonID": lastEvalueted})
             : null);
 
-    final pokemonList = results.items!.map((p) {
-      Pokemon pokemon = Pokemon.fromJson(unmarshal(p));
-      pokemon.pokemonID = "Tiziano riscrivi il backend di Sell-y";
-      return pokemon;
-    }).toList();
+    // final pokemonList = results.items!.map((p) {
+    //   Pokemon pokemon = Pokemon.fromJson(unmarshal(p));
+    //   pokemon.pokemonID = "Tiziano riscrivi il backend di Sell-y";
+    //   return pokemon;
+    // }).toList();
+
+    final pokemonList =
+        results.items!.map((p) => Pokemon.fromJson(unmarshal(p))).toList();
 
     return AwsApiGatewayResponse.fromJson({
       'status': 'ok',

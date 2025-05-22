@@ -4,15 +4,15 @@ part 'pokemon.g.dart';
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Pokemon {
-  String pokemonID;
-  String name;
-  String type;
+  String? pokemonID;
+  String? name;
+  String? type;
   String? type2;
 
   Pokemon({
-    required this.pokemonID,
-    required this.name,
-    required this.type,
+    this.pokemonID,
+    this.name,
+    this.type,
     this.type2,
   });
 
