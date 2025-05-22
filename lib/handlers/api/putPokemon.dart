@@ -16,7 +16,7 @@ Future<AwsApiGatewayResponse> putPokemon(
 
     List<Pokemon> pokemonList = [];
 
-    final requestItem = body.map((e) {
+    List<WriteRequest> requestItem = body.map((e) {
       Pokemon pokemon = Pokemon(
           pokemonID: uuid.v1(),
           name: e['name'],
@@ -65,12 +65,13 @@ Future<AwsApiGatewayResponse> putPokemon(
         'content': pokemonList,
       },
     );
-  } catch (e) {
+  } catch (e, stackTrace) {
     return AwsApiGatewayResponse.fromJson(
       {
         'status': 'error',
         'content': 'Error creating Pokemon',
-        'error': e.toString()
+        'error': e.toString(),
+        'stackTrace': stackTrace.toString(),
       },
     );
   }
