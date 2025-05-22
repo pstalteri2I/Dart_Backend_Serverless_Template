@@ -13,14 +13,11 @@ Future<AwsApiGatewayResponse> getPokemons(
 
     final results = await db.scan(tableName: "pokemons");
 
-    final pokemonList = results.items!
-        .map((pokemon) => Pokemon.fromJson(unmarshal(pokemon)))
-        .toList();
+    final pokemonList =
+        results.items!.map((pokemon) => unmarshal(pokemon)).toList();
 
-    return AwsApiGatewayResponse.fromJson({
-      'status': 'ok',
-      'content': pokemonList.map((p) => p.toJson()).toList(),
-    });
+    return AwsApiGatewayResponse.fromJson(
+        {'status': 'ok', 'content': pokemonList});
   } catch (e) {
     return AwsApiGatewayResponse.fromJson({
       'status': 'error',

@@ -12,7 +12,7 @@ Future<AwsApiGatewayResponse> getPokemon(
   try {
     final db = DynamoDB(region: context.region!);
 
-    final pokemonID = event.pathParameters?['pokemonID'];
+    final pokemonID = event.pathParameters!['pokemonID'];
 
     final results = await db.getItem(
         key: marshall({"pokemonID": pokemonID}), tableName: "pokemons");

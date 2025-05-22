@@ -13,7 +13,7 @@ Future<AwsApiGatewayResponse> patchPokemon(
   try {
     final db = DynamoDB(region: context.region!);
 
-    final pokemonID = event.pathParameters?['pokemonID'];
+    final pokemonID = event.pathParameters!['pokemonID'];
     final body = jsonDecode(event.body!);
 
     final results = await db.updateItem(
