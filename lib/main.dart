@@ -10,6 +10,6 @@ void main() async {
     ..registerHandler<AwsApiGatewayEvent>("main.putPokemon", putPokemon)
     ..registerHandler<AwsApiGatewayEvent>("main.getPokemons", getPokemons)
     ..registerHandler<AwsApiGatewayEvent>("main.getPokemon", getPokemon)
-    ..registerHandler<AwsApiGatewayEvent>("main.getPokemon", deletePokemon)
+    ..registerHandler<AwsApiGatewayEvent>("main.deletePokemon", deletePokemon)
     ..invoke();
 }
