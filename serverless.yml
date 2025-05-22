@@ -39,6 +39,10 @@ functions:
         Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
       - Effect: "Allow"
         Action:
+          - dynamodb:BatchWriteItem
+        Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
+      - Effect: "Allow"
+        Action:
           - ses:SendEmail
         Resource: arn:aws:ses:eu-west-2:737830503619:identity/tnicosia@2innovation.it
       - Effect: "Allow"
