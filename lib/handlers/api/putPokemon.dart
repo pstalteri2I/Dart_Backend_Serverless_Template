@@ -44,7 +44,7 @@ Future<AwsApiGatewayResponse> putPokemon(
           pokemonID: uuid.v1(),
           name: e['name'],
           type: e['type'],
-          type2: e['type2']);
+          type2: e['type2'] ?? e['type']);
 
       pokemonList.add(pokemon);
       return WriteRequest(

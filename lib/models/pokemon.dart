@@ -4,16 +4,16 @@ part 'pokemon.g.dart';
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Pokemon {
-  String? pokemonID;
-  String? name;
-  String? type;
-  String? type2;
+  String pokemonID;
+  String name;
+  String type;
+  String type2;
 
   Pokemon({
-    this.pokemonID,
-    this.name,
-    this.type,
-    this.type2,
+    required this.pokemonID,
+    required this.name,
+    required this.type,
+    required this.type2,
   });
 
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
