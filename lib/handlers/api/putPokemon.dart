@@ -12,9 +12,11 @@ Future<AwsApiGatewayResponse> putPokemon(
     var uuid = const Uuid();
     final body = jsonDecode(event.body!);
 
-    Pokemon pokemon =
-        Pokemon(pokemonID: uuid.v1(), name: body['name'], type: body['type']);
-    //type2: body['type2']);
+    Pokemon pokemon = Pokemon(
+        pokemonID: uuid.v1(),
+        name: body['name'],
+        type: body['type'],
+        type2: body['type2']);
 
     final db = DynamoDB(region: context.region!);
 

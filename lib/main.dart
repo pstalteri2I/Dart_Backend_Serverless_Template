@@ -3,6 +3,7 @@ import 'package:aws_lambda_dart_runtime/aws_lambda_dart_runtime.dart';
 import 'package:dart_template/handlers/api/deletePokemon.dart';
 import 'package:dart_template/handlers/api/getPokemon.dart';
 import 'package:dart_template/handlers/api/getPokemons.dart';
+import 'package:dart_template/handlers/api/patchPokemon.dart';
 import 'package:dart_template/handlers/api/putPokemon.dart';
 
 void main() async {
@@ -11,5 +12,6 @@ void main() async {
     ..registerHandler<AwsApiGatewayEvent>("main.getPokemons", getPokemons)
     ..registerHandler<AwsApiGatewayEvent>("main.getPokemon", getPokemon)
     ..registerHandler<AwsApiGatewayEvent>("main.deletePokemon", deletePokemon)
+    ..registerHandler<AwsApiGatewayEvent>("main.patchPokemon", patchPokemon)
     ..invoke();
 }

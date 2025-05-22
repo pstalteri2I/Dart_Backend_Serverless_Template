@@ -88,6 +88,23 @@ functions:
         Action:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
+
+  patchPokemon:
+    handler: main.patchPokemon
+    events:
+      - http:
+          path: /pokemon/{pokemonID}
+          method: PATCH
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - Content-Encoding
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:updateItem
+        Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
   # EXAMPLEputUser:
   #   handler: main.EXAMPLEputUser
   #   events:
