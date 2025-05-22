@@ -33,7 +33,8 @@ Future<AwsApiGatewayResponse> getPokemons(
                 ":type": pokemonType,
                 if (pokemonType2 != null) ":type2": pokemonType2
               })
-            : null);
+            : null,
+        limit: 5);
 
     final pokemonList = results.items!.map((p) {
       Pokemon pokemon = Pokemon.fromJson(unmarshal(p));
@@ -41,8 +42,11 @@ Future<AwsApiGatewayResponse> getPokemons(
       return pokemon;
     }).toList();
 
-    return AwsApiGatewayResponse.fromJson(
-        {'status': 'ok', 'content': pokemonList});
+    return AwsApiGatewayResponse.fromJson({
+      'status': 'ok',
+      'content': pokemonList,
+      'next': results.lastEvaluatedKey
+    });
   } catch (e) {
     return AwsApiGatewayResponse.fromJson({
       'status': 'error',
