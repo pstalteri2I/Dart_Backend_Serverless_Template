@@ -41,6 +41,10 @@ functions:
         Action:
           - ses:SendEmail
         Resource: arn:aws:ses:eu-west-2:737830503619:identity/tnicosia@2innovation.it
+      - Effect: "Allow"
+        Action:
+          - ses:SendEmail
+        Resource: arn:aws:ses:eu-west-2:737830503619:identity/pstalteri@2innovation.it
 
   getPokemons:
     handler: main.getPokemons
