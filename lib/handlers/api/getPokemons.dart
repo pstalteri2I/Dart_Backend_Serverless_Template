@@ -18,7 +18,9 @@ Future<AwsApiGatewayResponse> getPokemons(
     final results = await db.scan(
         tableName: "pokemons",
         filterExpression: pokemonType != null
-            ? "contains(#type, :type) ${pokemonType2 != null ? "and" : "or"} contains(#type2, ${pokemonType2 != null ? ":type2" : ":type"})"
+            ? pokemonType2 != null
+                ? "(contains(#type, :type) or contains(#type2, :type)) and (contains(#type, :type2) or contains(#type2, :type2))"
+                : "contains(#type, :type) or contains(#type2, :type)"
             : null,
         expressionAttributeNames: pokemonType != null
             ? {
