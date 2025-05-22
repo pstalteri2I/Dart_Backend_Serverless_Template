@@ -54,6 +54,8 @@ Future<AwsApiGatewayResponse> putPokemon(
       );
     }).toList();
 
+    if (pokemonList.length > 25) {}
+
     await db.batchWriteItem(
       requestItems: {
         "pokemons": requestItem,

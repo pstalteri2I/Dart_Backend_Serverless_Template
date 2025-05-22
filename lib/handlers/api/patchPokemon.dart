@@ -16,20 +16,40 @@ Future<AwsApiGatewayResponse> patchPokemon(
     final pokemonID = event.pathParameters!['pokemonID'];
     final body = jsonDecode(event.body!);
 
+    String expression = "";
+
+    if (body['name'] != null || body['type'] != null || body['type2'] != null) {
+      expression = "SET ";
+    }
+
+    if (body['name'] != null) {
+      expression += "#name = :name, ";
+    }
+    if (body['type'] != null) {
+      expression += "#type = :type, ";
+    }
+    if (body['type2'] != null) {
+      expression += "#type2 = :type2";
+    }
+
     final results = await db.updateItem(
       key: marshall({"pokemonID": pokemonID}),
       tableName: "pokemons",
-      updateExpression: "SET #name = :name, #type = :type, #type2 = :type2",
-      expressionAttributeNames: {
-        '#name': 'name',
-        '#type': 'type',
-        '#type2': 'type2',
-      },
-      expressionAttributeValues: marshall({
-        ':name': body['name'],
-        ':type': body['type'],
-        ':type2': body['type2'],
-      }),
+      updateExpression: expression.isNotEmpty ? expression : null,
+      expressionAttributeNames: expression.isNotEmpty
+          ? {
+              body['name'] != null ? '#name' : 'name': "",
+              body['type'] != null ? '#type' : 'type': "",
+              body['type2'] != null ? '#type2' : 'type2': "",
+            }
+          : null,
+      expressionAttributeValues: expression.isNotEmpty
+          ? marshall({
+              body['name'] != null ? ':name' : body['name']: "",
+              body['type'] != null ? ':type' : body['type']: "",
+              body['type2'] != null ? ':type2' : body['type2']: "",
+            })
+          : null,
       returnValues: ReturnValue.allNew,
     );
 
