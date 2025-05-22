@@ -1,6 +1,6 @@
 import 'package:aws_lambda_dart_runtime/aws_lambda_dart_runtime.dart';
 import 'package:aws_lambda_dart_runtime/runtime/context.dart';
-import 'package:dart_template/models/pokemon.dart';
+import 'package:dart_template/marshal.dart';
 import 'package:dart_template/unmarshal.dart';
 import 'package:aws_client/dynamo_db_2012_08_10.dart';
 
@@ -11,7 +11,15 @@ Future<AwsApiGatewayResponse> getPokemons(
   try {
     final db = DynamoDB(region: context.region!);
 
-    final results = await db.scan(tableName: "pokemons");
+    final pokemonType = event.queryStringParameters?['type'];
+
+    final results = await db.scan(
+        tableName: "pokemons",
+        filterExpression: pokemonType != null ? "contains(#type, :type)" : null,
+        expressionAttributeNames:
+            pokemonType != null ? {"#type": "type"} : null,
+        expressionAttributeValues:
+            pokemonType != null ? marshall({":type": pokemonType}) : null);
 
     final pokemonList =
         results.items!.map((pokemon) => unmarshal(pokemon)).toList();
