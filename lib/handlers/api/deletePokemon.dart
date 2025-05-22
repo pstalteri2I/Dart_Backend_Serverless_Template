@@ -5,7 +5,7 @@ import 'package:dart_template/marshal.dart';
 import 'package:dart_template/models/pokemon.dart';
 import 'package:dart_template/unmarshal.dart';
 
-Future<AwsApiGatewayResponse> getPokemon(
+Future<AwsApiGatewayResponse> deletePokemon(
   Context context,
   AwsApiGatewayEvent event,
 ) async {

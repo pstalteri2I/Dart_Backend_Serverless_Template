@@ -71,6 +71,23 @@ functions:
         Action:
           - dynamodb:GetItem
         Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
+
+    deletePokemon:
+    handler: main.deletePokemon
+    events:
+      - http:
+          path: /pokemon/{pokemonID}
+          method: DELETE
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - Content-Encoding
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
   # EXAMPLEputUser:
   #   handler: main.EXAMPLEputUser
   #   events:
