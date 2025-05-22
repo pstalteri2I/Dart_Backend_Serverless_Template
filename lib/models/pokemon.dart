@@ -7,13 +7,13 @@ class Pokemon {
   String pokemonID;
   String name;
   String type;
-  String type2;
+  String? type2;
 
   Pokemon({
     required this.pokemonID,
     required this.name,
     required this.type,
-    required this.type2,
+    this.type2,
   });
 
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
