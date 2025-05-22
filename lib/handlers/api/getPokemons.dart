@@ -33,12 +33,11 @@ Future<AwsApiGatewayResponse> getPokemons(
               })
             : null);
 
-    final pokemonList = results.items!
-        .map((pokemon) => Pokemon.fromJson(unmarshal(pokemon)))
-        .toList();
-
-    pokemonList.map((pokemon) =>
-        pokemon.pokemonID = "Tiziano riscrivi il backend di Sall-y");
+    final pokemonList = results.items!.map((p) {
+      Pokemon pokemon = Pokemon.fromJson(unmarshal(p));
+      pokemon.pokemonID = "Tiziano riscrivi il backend di Sall-y";
+      return pokemon;
+    }).toList();
 
     return AwsApiGatewayResponse.fromJson(
         {'status': 'ok', 'content': pokemonList.map((e) => e.toJson())});
