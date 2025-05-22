@@ -12,6 +12,8 @@ Future<AwsApiGatewayResponse> getPokemons(
   try {
     final db = DynamoDB(region: context.region!);
 
+    final lastEvalueted = event.queryStringParameters?['lastEvalueted'];
+
     final pokemonType = event.queryStringParameters?['type'];
     final pokemonType2 = event.queryStringParameters?['type2'];
 
@@ -34,7 +36,10 @@ Future<AwsApiGatewayResponse> getPokemons(
                 if (pokemonType2 != null) ":type2": pokemonType2
               })
             : null,
-        limit: 5);
+        limit: 5,
+        exclusiveStartKey: lastEvalueted != null
+            ? marshall({"pokemonID": lastEvalueted})
+            : null);
 
     final pokemonList = results.items!.map((p) {
       Pokemon pokemon = Pokemon.fromJson(unmarshal(p));
