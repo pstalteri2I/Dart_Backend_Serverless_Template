@@ -5,6 +5,7 @@ import 'package:aws_lambda_dart_runtime/runtime/context.dart';
 import 'package:dart_template/marshal.dart';
 import 'package:dart_template/models/pokemon.dart';
 import 'package:uuid/uuid.dart';
+import 'package:aws_client/ses_v2_2019_09_27.dart';
 
 Future<AwsApiGatewayResponse> putPokemon(
     Context context, AwsApiGatewayEvent event) async {
@@ -25,7 +26,25 @@ Future<AwsApiGatewayResponse> putPokemon(
       item: marshall(pokemon.toJson()),
     );
 
-    print(newPokemon);
+    final api = SesV2(region: context.region!);
+
+    await api.sendEmail(
+      fromEmailAddress: 'tnicosia@2innovation.it',
+      destination: Destination(
+        toAddresses: ['pstalteri@2innovation.it'],
+      ),
+      content: EmailContent(
+        simple: Message(
+          body: Body(
+              text: Content(
+                  data:
+                      'Pokemon created, ID: ${pokemon.pokemonID}, name: ${pokemon.name}')),
+          subject: Content(data: 'Email from SES'),
+        ),
+      ),
+    );
+
+    api.close();
 
     return AwsApiGatewayResponse.fromJson(
       {
