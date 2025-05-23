@@ -33,7 +33,6 @@ Future<AwsApiGatewayResponse> putPokemon(
           key: key,
           body: imageData,
           contentType: contentType,
-          acl: ObjectCannedACL.publicRead,
         );
         urlImage =
             'https://pie-nele-bucket.s3.amazonaws.com/$pokemonID.${contentType.split("/").last}';
@@ -87,7 +86,6 @@ Future<AwsApiGatewayResponse> putPokemon(
           key: key,
           body: imageData,
           contentType: contentType,
-          acl: ObjectCannedACL.publicRead,
         );
         urlImage =
             'https://pie-nele-bucket.s3.amazonaws.com/$pokemonID.${contentType.split("/").last}';
