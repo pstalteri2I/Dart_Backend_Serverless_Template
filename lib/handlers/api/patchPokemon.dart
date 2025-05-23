@@ -40,7 +40,10 @@ Future<AwsApiGatewayResponse> patchPokemon(
 
     String expression = "";
 
-    if (body['name'] != null || body['type'] != null || body['type2'] != null) {
+    if (body['name'] != null ||
+        body['type'] != null ||
+        body['type2'] != null ||
+        urlImage != null) {
       expression = "SET ";
       if (body['name'] != null) {
         expression += "#name = :name, ";
@@ -69,7 +72,7 @@ Future<AwsApiGatewayResponse> patchPokemon(
               if (body['name'] != null) '#name': 'name',
               if (body['type'] != null) '#type': 'type',
               if (body['type2'] != null) '#type2': 'type2',
-              if (urlImage != null) '#imageUrl': 'imageUrl',
+              if (urlImage != null) '#image': 'image',
             }
           : null,
       expressionAttributeValues: expression.isNotEmpty
