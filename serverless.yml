@@ -121,6 +121,10 @@ functions:
         Action:
           - dynamodb:updateItem
         Resource: arn:aws:dynamodb:eu-west-2:737830503619:table/pokemons
+      - Effect: "Allow"
+        Action:
+          - s3:PutObject
+        Resource: arn:aws:s3:::pie-nele-bucket/*
   # EXAMPLEputUser:
   #   handler: main.EXAMPLEputUser
   #   events:
