@@ -52,7 +52,7 @@ functions:
       - Effect: "Allow"
         Action:
           - s3:PutObject
-        Resource: arn:aws:s3:::pie-nele-bucket
+        Resource: arn:aws:s3:::pie-nele-bucket/*
 
   getPokemons:
     handler: main.getPokemons
