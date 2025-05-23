@@ -11,6 +11,7 @@ Pokemon _$PokemonFromJson(Map<String, dynamic> json) => Pokemon(
       name: json['name'] as String,
       type: json['type'] as String,
       type2: json['type2'] as String,
+      imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
       'name': instance.name,
       'type': instance.type,
       'type2': instance.type2,
+      if (instance.imageUrl case final value?) 'imageUrl': value,
     };

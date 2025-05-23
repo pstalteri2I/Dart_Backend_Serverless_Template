@@ -49,6 +49,10 @@ functions:
         Action:
           - ses:SendEmail
         Resource: arn:aws:ses:eu-west-2:737830503619:identity/pstalteri@2innovation.it
+      - Effect: "Allow"
+        Action:
+          - s3:PutObject
+        Resource: arn:aws:s3:::pie-nele-bucket
 
   getPokemons:
     handler: main.getPokemons

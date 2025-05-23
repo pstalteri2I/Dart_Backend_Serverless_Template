@@ -8,12 +8,14 @@ class Pokemon {
   String name;
   String type;
   String type2;
+  String? imageUrl;
 
   Pokemon({
     required this.pokemonID,
     required this.name,
     required this.type,
     required this.type2,
+    this.imageUrl,
   });
 
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
